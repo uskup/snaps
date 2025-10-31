@@ -3989,11 +3989,13 @@ export class SnapController extends BaseController<
       const result = marketData[assets.asset]?.[assets.unit];
       // Only include rates that were actually requested.
       if (result) {
-        accumulator[assets.asset] ??= {};
+        if (!accumulator[assets.asset]) {
+          accumulator[assets.asset] = Object.create(null);
+        }
         accumulator[assets.asset][assets.unit] = result;
       }
       return accumulator;
-    }, {});
+    }, Object.create(null));
     return { marketData: filteredMarketData };
   }
 
